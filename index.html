@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2300f2fe' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='m2 7 4.41-4.41A2 2 0 0 1 7.83 2h8.34a2 2 0 0 1 1.42.59L22 7'/><path d='M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8'/><path d='M15 22v-4a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v4'/><path d='M2 7h20'/></svg>" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NEXUS MART — 3D Virtual Retail Experience</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  </head>
+  <body class="bg-[#07090e] text-slate-100 overflow-hidden select-none">
+    <script>
+      window.addEventListener('error', function(e) {
+        var el = document.createElement('div');
+        el.style.cssText = 'position:fixed;top:10px;left:10px;color:red;background:white;z-index:99999;padding:10px;font-size:16px;max-width:90vw;';
+        el.textContent = 'RUNTIME ERROR: ' + e.message + ' at ' + e.filename + ':' + e.lineno;
+        document.body.appendChild(el);
+      });
+      window.addEventListener('unhandledrejection', function(e) {
+        var el = document.createElement('div');
+        el.style.cssText = 'position:fixed;top:80px;left:10px;color:red;background:white;z-index:99999;padding:10px;font-size:16px;max-width:90vw;';
+        el.textContent = 'PROMISE REJECTION: ' + (e.reason && e.reason.message ? e.reason.message : e.reason);
+        document.body.appendChild(el);
+      });
+    </script>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
