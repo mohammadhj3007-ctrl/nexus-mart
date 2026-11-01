@@ -3,25 +3,33 @@ import { useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 import { useStore } from '../../store/useStore';
 
-// Bounding box obstacles for supermarket fixtures
+// Bounding box obstacles for expanded supermarket fixtures
 const OBSTACLES = [
-  // Shelf 1 (Beverages)
-  { minX: -8.8, maxX: -7.2, minZ: -8.5, maxZ: 4.5 },
-  // Shelf 2 (Groceries)
-  { minX: -3.8, maxX: -2.2, minZ: -8.5, maxZ: 4.5 },
-  // Shelf 3 (Electronics)
-  { minX: 2.2, maxX: 3.8, minZ: -8.5, maxZ: 4.5 },
-  // Shelf 4 (Personal Care)
-  { minX: 7.2, maxX: 8.8, minZ: -8.5, maxZ: 4.5 },
-  // Checkout Counter Block
-  { minX: 6.5, maxX: 11.5, minZ: 8.0, maxZ: 12.5 },
+  // Gondola Aisle 1 (Beverages / Snacks)
+  { minX: -8.3, maxX: -6.7, minZ: -12.2, maxZ: 10.2 },
+  // Gondola Aisle 2 (Pantry & Cereal)
+  { minX: -3.3, maxX: -1.7, minZ: -12.2, maxZ: 10.2 },
+  // Gondola Aisle 3 (Health & Personal Care)
+  { minX: 1.7, maxX: 3.3, minZ: -12.2, maxZ: 10.2 },
+  // Gondola Aisle 4 (Tech & Electronics)
+  { minX: 6.7, maxX: 8.3, minZ: -12.2, maxZ: 10.2 },
+  // Farm Fresh Produce Islands (Right Department)
+  { minX: 13.2, maxX: 16.8, minZ: -12.5, maxZ: 11.0 },
+  // Butcher Shop Chilled Cases (Left Department)
+  { minX: -19.0, maxX: -17.0, minZ: -17.0, maxZ: 10.0 },
+  // Cold Dairy & Beverage Refrigerator Wall (Back Wall)
+  { minX: -17.0, maxX: 17.0, minZ: -25.8, maxZ: -24.0 },
+  // Conveyor Checkout Lanes (Front Left)
+  { minX: -8.3, maxX: -1.7, minZ: 14.0, maxZ: 18.2 },
+  // Self-Checkout Pod Bank (Front Right)
+  { minX: 3.0, maxX: 8.0, minZ: 13.5, maxZ: 18.5 },
 ];
 
 const STORE_BOUNDS = {
-  minX: -12.2,
-  maxX: 12.2,
-  minZ: -13.5,
-  maxZ: 15.2,
+  minX: -20.5,
+  maxX: 20.5,
+  minZ: -24.5,
+  maxZ: 24.5,
 };
 
 const PLAYER_RADIUS = 0.55;
@@ -35,19 +43,41 @@ export const CameraController: React.FC = () => {
   const setPlayerPos = useStore((s) => s.setPlayerPos);
 
   // Position & rotation state
-  const playerPos = useRef(new THREE.Vector3(0, EYE_HEIGHT, 11));
+  const playerPos = useRef(new THREE.Vector3(0, EYE_HEIGHT, 19.0));
   const velocity = useRef(new THREE.Vector3());
   const yaw = useRef(0); // Horizontal rotation in radians (0 = looking down -Z)
   const pitch = useRef(0); // Vertical rotation in radians
 
-  // Normalized mouse coordinates: -1 to 1
-  const mouseNorm = useRef({ x: 0, y: 0 });
 
   // Key tracking
   const keys = useRef<{ [key: string]: boolean }>({});
   const bobTimer = useRef(0);
+  const isLocked = useRef(false);
 
   useEffect(() => {
+    const handlePointerLockChange = () => {
+      isLocked.current = document.pointerLockElement !== null;
+    };
+
+    const handleClick = (e: MouseEvent) => {
+      // If clicking interactive UI elements, don't request lock
+      const target = e.target as HTMLElement;
+      if (
+        target.closest('button') ||
+        target.closest('input') ||
+        target.closest('textarea') ||
+        target.closest('a') ||
+        target.closest('.glass-panel') ||
+        target.closest('[role="dialog"]')
+      ) {
+        return;
+      }
+
+      if (!isLocked.current && hasEntered) {
+        document.body.requestPointerLock();
+      }
+    };
+
     const handleKeyDown = (e: KeyboardEvent) => {
       // Don't capture keys if an input is focused
       if ((e.target as HTMLElement)?.tagName === 'INPUT' || (e.target as HTMLElement)?.tagName === 'TEXTAREA') {
@@ -61,22 +91,32 @@ export const CameraController: React.FC = () => {
     };
 
     const handleMouseMove = (e: MouseEvent) => {
-      const nx = (e.clientX / window.innerWidth) * 2 - 1;
-      const ny = (e.clientY / window.innerHeight) * 2 - 1;
-      mouseNorm.current.x = nx;
-      mouseNorm.current.y = ny;
+      if (isLocked.current) {
+        // Direct FPS Shooter Mouse Look
+        const sensitivity = 0.0022;
+        yaw.current -= e.movementX * sensitivity;
+        pitch.current -= e.movementY * sensitivity;
+
+        // Clamp pitch to avoid neck break (-80° to +80°)
+        const maxPitch = Math.PI * 0.44;
+        pitch.current = THREE.MathUtils.clamp(pitch.current, -maxPitch, maxPitch);
+      }
     };
 
+    document.addEventListener('pointerlockchange', handlePointerLockChange);
+    window.addEventListener('click', handleClick);
     window.addEventListener('keydown', handleKeyDown);
     window.addEventListener('keyup', handleKeyUp);
     window.addEventListener('mousemove', handleMouseMove);
 
     return () => {
+      document.removeEventListener('pointerlockchange', handlePointerLockChange);
+      window.removeEventListener('click', handleClick);
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('keyup', handleKeyUp);
       window.removeEventListener('mousemove', handleMouseMove);
     };
-  }, []);
+  }, [hasEntered]);
 
   // Collision resolution helper
   const checkCollision = (x: number, z: number): boolean => {
@@ -151,34 +191,6 @@ export const CameraController: React.FC = () => {
       camera.position.set(0, EYE_HEIGHT, 11.5);
       camera.lookAt(0, EYE_HEIGHT, 0);
       return;
-    }
-
-    // --- HEAD ROTATION (EDGE PANNING & PITCH) ---
-    // Central 65% deadzone: deadzone threshold = 0.65
-    const DEADZONE = 0.65;
-    const nx = mouseNorm.current.x;
-    const ny = mouseNorm.current.y;
-
-    // Edge panning Yaw (turn left/right)
-    if (Math.abs(nx) > DEADZONE) {
-      const excess = (Math.abs(nx) - DEADZONE) / (1 - DEADZONE);
-      const direction = -Math.sign(nx); // Move right mouse -> turn right
-      const yawSpeed = 1.8;
-      yaw.current += direction * excess * yawSpeed * dt;
-    }
-
-    // Edge panning Pitch (tilt up/down)
-    if (Math.abs(ny) > DEADZONE) {
-      const excess = (Math.abs(ny) - DEADZONE) / (1 - DEADZONE);
-      const direction = -Math.sign(ny); // Move up mouse -> look up
-      const pitchSpeed = 1.3;
-      pitch.current += direction * excess * pitchSpeed * dt;
-      // Clamp pitch to avoid neck break (-45° to +40°)
-      pitch.current = THREE.MathUtils.clamp(
-        pitch.current,
-        -Math.PI * 0.25,
-        Math.PI * 0.22
-      );
     }
 
     // --- WASD WALKING MOVEMENT ---

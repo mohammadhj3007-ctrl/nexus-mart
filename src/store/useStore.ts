@@ -40,14 +40,14 @@ export const useStore = create<StoreState>((set) => ({
   isCartOpen: false,
   isAudioMuted: false,
   cameraTarget: null,
-  playerPos: [0, 1.7, 16.5],
+  playerPos: [0, 1.7, 22.0],
   isHoveringInteractive: false,
 
   enterStore: () => {
     set({
       hasEntered: true,
       cameraTarget: {
-        position: [0, 1.7, 12],
+        position: [0, 1.7, 19.0],
         lookAt: [0, 1.7, 0],
       },
     });

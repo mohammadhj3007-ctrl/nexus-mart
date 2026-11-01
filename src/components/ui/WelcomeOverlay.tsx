@@ -54,8 +54,8 @@ export const WelcomeOverlay: React.FC = () => {
               <Compass className="w-4 h-4" />
             </div>
             <div>
-              <h4 className="text-xs font-bold text-white font-mono uppercase tracking-wider">Spatial Look</h4>
-              <p className="text-[12px] text-slate-400 mt-0.5">Aim freely in the center deadzone. Move to screen edges to pan camera and look around.</p>
+              <h4 className="text-xs font-bold text-white font-mono uppercase tracking-wider">Shooter Camera</h4>
+              <p className="text-[12px] text-slate-400 mt-0.5">Click anywhere to lock mouse and look around freely like an FPS game. Press ESC to release.</p>
             </div>
           </div>
 

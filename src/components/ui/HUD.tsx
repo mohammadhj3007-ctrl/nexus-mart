@@ -115,9 +115,9 @@ export const HUD: React.FC = () => {
           </div>
           <div className="space-y-1.5 text-slate-300 text-[11px]">
             <p><span className="text-cyan-300 font-mono font-bold">WASD / Arrows:</span> Walk smoothly</p>
-            <p><span className="text-cyan-300 font-mono font-bold">Shift:</span> Sprint walk</p>
-            <p><span className="text-cyan-300 font-mono font-bold">Center 65%:</span> Move pointer freely to aim</p>
-            <p><span className="text-cyan-300 font-mono font-bold">Outer 35% Edges:</span> Rotate camera head</p>
+            <p><span className="text-cyan-300 font-mono font-bold">Shift:</span> Sprint run</p>
+            <p><span className="text-cyan-300 font-mono font-bold">Mouse Look:</span> Click screen for shooter controls</p>
+            <p><span className="text-cyan-300 font-mono font-bold">ESC Key:</span> Release mouse to click UI / cart</p>
             <p><span className="text-cyan-300 font-mono font-bold">Hotspot (&lt; 5m):</span> Hover for quick card, click for 3D model</p>
           </div>
         </div>
@@ -132,9 +132,9 @@ export const HUD: React.FC = () => {
         <div className="hidden md:flex items-center gap-3 px-4 py-1.5 rounded-full bg-black/40 border border-white/5 backdrop-blur-md text-[11px] font-mono text-slate-400 pointer-events-auto">
           <span>Walk: <kbd className="text-cyan-300">W A S D</kbd></span>
           <span>•</span>
-          <span>Pan: Screen Edges</span>
+          <span>Look: Mouse FPS (Click / ESC)</span>
           <span>•</span>
-          <span>Hotspots: Walk within 5m</span>
+          <span>Sprint: <kbd className="text-cyan-300">Shift</kbd></span>
         </div>
       </footer>
     </div>

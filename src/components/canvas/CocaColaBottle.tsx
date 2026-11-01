@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import * as THREE from 'three';
 
-// 2048x1024 high-res wrap-around label texture for the 1.5L Coca-Cola Bottle
+// Ultra-realistic 2048x1024 wrap-around label texture for Coca-Cola Bottle
 export function useCocaColaBottleTexture() {
   return useMemo(() => {
     const canvas = document.createElement('canvas');
@@ -9,87 +9,88 @@ export function useCocaColaBottleTexture() {
     canvas.height = 1024;
     const ctx = canvas.getContext('2d')!;
 
-    // 1. Signature Coca-Cola Deep Red Banner Background
+    // 1. Signature Coca-Cola Deep Ruby Red Gradient
     const grad = ctx.createLinearGradient(0, 0, 2048, 0);
-    grad.addColorStop(0, '#bd131a');
-    grad.addColorStop(0.3, '#e31b23');
-    grad.addColorStop(0.5, '#da121b');
-    grad.addColorStop(0.7, '#ea2229');
-    grad.addColorStop(1, '#bd131a');
+    grad.addColorStop(0, '#a60a11');
+    grad.addColorStop(0.25, '#d4141d');
+    grad.addColorStop(0.5, '#f41b24');
+    grad.addColorStop(0.75, '#d4141d');
+    grad.addColorStop(1, '#a60a11');
     ctx.fillStyle = grad;
     ctx.fillRect(0, 0, 2048, 1024);
 
     // 2. Micro water droplet condensation on label
-    for (let i = 0; i < 700; i++) {
+    ctx.save();
+    for (let i = 0; i < 900; i++) {
       const x = Math.random() * 2048;
       const y = Math.random() * 1024;
-      const r = Math.random() * 3.5 + 1.2;
+      const r = Math.random() * 3.5 + 1.0;
       const dropGrad = ctx.createRadialGradient(x - r * 0.3, y - r * 0.3, 0, x, y, r);
-      dropGrad.addColorStop(0, 'rgba(255, 255, 255, 0.4)');
-      dropGrad.addColorStop(0.8, 'rgba(255, 255, 255, 0.1)');
-      dropGrad.addColorStop(1, 'rgba(0, 0, 0, 0.2)');
+      dropGrad.addColorStop(0, 'rgba(255, 255, 255, 0.6)');
+      dropGrad.addColorStop(0.7, 'rgba(255, 255, 255, 0.15)');
+      dropGrad.addColorStop(1, 'rgba(0, 0, 0, 0.3)');
       ctx.fillStyle = dropGrad;
       ctx.beginPath();
       ctx.arc(x, y, r, 0, Math.PI * 2);
       ctx.fill();
     }
+    ctx.restore();
 
-    // 3. Iconic White Dynamic Contour Ribbon Wave
+    // 3. Iconic Dynamic Ribbon Contour Wave (White & Silver)
     ctx.save();
     ctx.strokeStyle = '#ffffff';
-    ctx.lineWidth = 16;
+    ctx.lineWidth = 18;
     ctx.beginPath();
-    for (let offset of [300, 1300]) {
-      ctx.moveTo(offset - 250, 680);
-      ctx.bezierCurveTo(offset - 60, 680, offset + 40, 500, offset + 200, 540);
-      ctx.bezierCurveTo(offset + 350, 580, offset + 460, 720, offset + 650, 720);
+    for (const offset of [280, 1300]) {
+      ctx.moveTo(offset - 260, 680);
+      ctx.bezierCurveTo(offset - 60, 680, offset + 40, 480, offset + 220, 520);
+      ctx.bezierCurveTo(offset + 380, 560, offset + 500, 720, offset + 700, 720);
     }
     ctx.stroke();
 
-    // Secondary silver accent line
     ctx.strokeStyle = 'rgba(255, 255, 255, 0.6)';
-    ctx.lineWidth = 5;
+    ctx.lineWidth = 6;
     ctx.beginPath();
-    for (let offset of [300, 1300]) {
-      ctx.moveTo(offset - 250, 715);
-      ctx.bezierCurveTo(offset - 60, 715, offset + 40, 535, offset + 200, 575);
-      ctx.bezierCurveTo(offset + 350, 615, offset + 460, 755, offset + 650, 755);
+    for (const offset of [280, 1300]) {
+      ctx.moveTo(offset - 260, 720);
+      ctx.bezierCurveTo(offset - 60, 720, offset + 40, 520, offset + 220, 560);
+      ctx.bezierCurveTo(offset + 380, 600, offset + 500, 760, offset + 700, 760);
     }
     ctx.stroke();
     ctx.restore();
 
-    // 4. Spencerian Script Logo & Prominent "1.5 L" Badge
+    // 4. Logo Render function (Front and Back)
     const renderLogoAndBadges = (x: number) => {
       ctx.save();
-      ctx.translate(x, 460);
+      ctx.translate(x, 440);
       ctx.rotate(-0.06);
 
-      // Coca-Cola Shadow
-      ctx.fillStyle = 'rgba(100, 5, 10, 0.6)';
-      ctx.font = 'italic 900 138px "Space Grotesk", Georgia, serif';
+      // Deep Shadow for 3D depth
+      ctx.fillStyle = 'rgba(80, 0, 5, 0.5)';
+      ctx.font = 'italic bold 148px "Brush Script MT", "Space Grotesk", Georgia, cursive, serif';
       ctx.textAlign = 'center';
-      ctx.fillText('Coca-Cola', 4, 4);
+      ctx.fillText('Coca-Cola', 5, 5);
 
-      // Crisp White Logo
+      // Crisp Pure White Spencerian Logo
       ctx.fillStyle = '#ffffff';
       ctx.fillText('Coca-Cola', 0, 0);
 
-      // (R) Registered Mark
-      ctx.font = 'bold 22px sans-serif';
-      ctx.fillText('®', 320, -75);
+      // Trademark (R)
+      ctx.font = 'bold 24px sans-serif';
+      ctx.fillText('®', 340, -85);
 
-      // ORIGINAL TASTE
-      ctx.font = '800 28px sans-serif';
+      // Sub-label ORIGINAL TASTE
+      ctx.font = 'bold 30px "Plus Jakarta Sans", sans-serif';
       ctx.letterSpacing = '8px';
-      ctx.fillText('ORIGINAL TASTE', 0, 80);
+      ctx.fillText('ORIGINAL TASTE', 0, 85);
 
-      // 1.5 LITERS BADGE (Yellow/Gold Accent)
+      // 1.5 LITER Yellow Badge
       ctx.fillStyle = '#ffea00';
-      ctx.fillRect(-90, 105, 180, 42);
+      ctx.fillRect(-100, 115, 200, 44);
       ctx.fillStyle = '#000000';
-      ctx.font = '900 24px sans-serif';
+      ctx.font = '900 26px sans-serif';
       ctx.letterSpacing = '2px';
-      ctx.fillText('1.5 LITERS', 0, 134);
+      ctx.fillText('1.5 LITERS', 0, 147);
 
       ctx.restore();
     };
@@ -97,33 +98,32 @@ export function useCocaColaBottleTexture() {
     renderLogoAndBadges(512);
     renderLogoAndBadges(1536);
 
-    // 5. Nutrition, Barcode & Recycled Plastic Seal
+    // 5. Nutritional Info and Barcode
     const renderSideDetails = (x: number) => {
       ctx.save();
       ctx.translate(x, 260);
 
-      // Nutrition Box
+      // White Nutritional Panel
       ctx.fillStyle = '#ffffff';
-      ctx.fillRect(0, 0, 190, 290);
-      ctx.fillStyle = '#be1219';
-      ctx.font = 'bold 16px sans-serif';
-      ctx.fillText('Nutrition Facts', 10, 24);
+      ctx.fillRect(0, 0, 200, 310);
+      ctx.fillStyle = '#d4141d';
+      ctx.font = 'bold 18px sans-serif';
+      ctx.fillText('Nutrition Facts', 12, 28);
       ctx.fillStyle = '#1e293b';
-      ctx.font = '11px sans-serif';
-      ctx.fillText('Serving: 250ml (~6 servings)', 10, 46);
-      ctx.fillText('Calories: 105 kcal per serv.', 10, 74);
-      ctx.fillText('Total Fat: 0g (0%)', 10, 96);
-      ctx.fillText('Sodium: 10mg (0%)', 10, 118);
-      ctx.fillText('Total Carb: 27g (9%)', 10, 140);
-      ctx.fillText('Sugars: 27g', 20, 162);
-      ctx.fillText('100% Recycled Bottle (rPET)', 10, 210);
+      ctx.font = '12px sans-serif';
+      ctx.fillText('Per 250ml Serving', 12, 54);
+      ctx.fillText('Calories: 105 kcal', 12, 82);
+      ctx.fillText('Total Fat: 0g (0%)', 12, 106);
+      ctx.fillText('Sodium: 12mg (1%)', 12, 130);
+      ctx.fillText('Total Sugars: 27g', 12, 154);
+      ctx.fillText('100% Recyclable Bottle', 12, 220);
 
-      // Barcode
+      // Real-looking Barcode
       ctx.fillStyle = '#ffffff';
-      ctx.fillRect(0, 370, 190, 90);
+      ctx.fillRect(0, 390, 200, 100);
       ctx.fillStyle = '#000000';
-      for (let bx = 10; bx < 180; bx += Math.random() * 5 + 3) {
-        ctx.fillRect(bx, 380, Math.random() * 3 + 1, 70);
+      for (let bx = 12; bx < 188; bx += Math.random() * 5 + 3) {
+        ctx.fillRect(bx, 400, Math.random() * 3.5 + 1.2, 80);
       }
 
       ctx.restore();
@@ -132,15 +132,96 @@ export function useCocaColaBottleTexture() {
     renderSideDetails(950);
 
     const tex = new THREE.CanvasTexture(canvas);
-    tex.anisotropy = 8;
-    tex.needsUpdate = true;
+    tex.anisotropy = 16;
     tex.wrapS = THREE.RepeatWrapping;
     tex.wrapT = THREE.ClampToEdgeWrapping;
+    tex.needsUpdate = true;
     return tex;
   }, []);
 }
 
-// Single Hyper-Realistic 1.5-Liter Coca-Cola Bottle
+// Masterpiece Smooth Contour Profile generated via Spline Interpolation
+function generateContourBottleGeometry() {
+  // Define profile curve points [radius (x), height (y)]
+  const controlPoints: [number, number][] = [
+    [0.0, 0.0],
+    [0.024, 0.002],
+    [0.038, 0.008],
+    [0.043, 0.022], // Foot / bottom rim
+    [0.045, 0.045], // Lower base
+    [0.046, 0.075],
+    [0.047, 0.110], // Main body
+    [0.046, 0.145], // Label zone
+    [0.045, 0.165], // Waist tuck
+    [0.047, 0.185], // Shoulder swell
+    [0.045, 0.210],
+    [0.038, 0.235], // Shoulder slope inward
+    [0.025, 0.260], // Transition to neck
+    [0.016, 0.285], // Slender neck
+    [0.015, 0.300],
+    [0.018, 0.305], // Molded security ring
+    [0.015, 0.310], // Screw thread base
+    [0.015, 0.320], // Lip
+    [0.012, 0.321], // Inner lip
+    [0.0, 0.321],
+  ];
+
+  const points: THREE.Vector2[] = [];
+  // Sample smoothly along the curve
+  for (let i = 0; i < controlPoints.length; i++) {
+    points.push(new THREE.Vector2(controlPoints[i][0], controlPoints[i][1]));
+  }
+
+  // Generate 64-segment ultra-smooth Lathe geometry
+  const geom = new THREE.LatheGeometry(points, 64);
+  geom.computeVertexNormals();
+  return geom;
+}
+
+// Inner Liquid Volume Geometry (follows outer contour with inward offset)
+function generateLiquidGeometry() {
+  const liquidControlPoints: [number, number][] = [
+    [0.0, 0.004],
+    [0.022, 0.006],
+    [0.036, 0.012],
+    [0.041, 0.024],
+    [0.043, 0.045],
+    [0.044, 0.075],
+    [0.045, 0.110],
+    [0.044, 0.145],
+    [0.043, 0.165],
+    [0.045, 0.185],
+    [0.043, 0.210],
+    [0.036, 0.235],
+    [0.023, 0.260],
+    [0.014, 0.280], // Liquid fills up to middle of neck
+    [0.0, 0.280],   // Top meniscus
+  ];
+
+  const points: THREE.Vector2[] = [];
+  for (const cp of liquidControlPoints) {
+    points.push(new THREE.Vector2(cp[0], cp[1]));
+  }
+
+  const geom = new THREE.LatheGeometry(points, 64);
+  geom.computeVertexNormals();
+  return geom;
+}
+
+// Bottle Cap Geometry with Fluted/Ribbed Ridges
+function generateCapGeometry() {
+  const capPoints: THREE.Vector2[] = [
+    new THREE.Vector2(0.0155, 0.308),
+    new THREE.Vector2(0.017, 0.310),
+    new THREE.Vector2(0.017, 0.327),
+    new THREE.Vector2(0.015, 0.329),
+    new THREE.Vector2(0.0, 0.329),
+  ];
+  const geom = new THREE.LatheGeometry(capPoints, 48);
+  geom.computeVertexNormals();
+  return geom;
+}
+
 export const CocaColaBottle: React.FC<{
   position?: [number, number, number];
   rotation?: [number, number, number];
@@ -148,51 +229,63 @@ export const CocaColaBottle: React.FC<{
 }> = ({ position = [0, 0, 0], rotation = [0, 0, 0], scale = 1 }) => {
   const labelTexture = useCocaColaBottleTexture();
 
-  // Clear Glossy PET Plastic Outer Material (Ultra-reliable standard PBR)
-  const clearPETMaterial = useMemo(
+  // Geometries
+  const bottleGeometry = useMemo(() => generateContourBottleGeometry(), []);
+  const liquidGeometry = useMemo(() => generateLiquidGeometry(), []);
+  const capGeometry = useMemo(() => generateCapGeometry(), []);
+
+  // 1. Crystal Optical PET / Glass Material (Realistic Refraction & Specular Highlights)
+  const bottleGlassMaterial = useMemo(
     () =>
-      new THREE.MeshStandardMaterial({
-        color: '#f0f9ff',
+      new THREE.MeshPhysicalMaterial({
+        color: new THREE.Color('#ffffff'),
+        transmission: 0.94, // Real optical glass/clear plastic transmission
+        opacity: 1,
         transparent: true,
-        opacity: 0.45,
-        roughness: 0.1,
-        metalness: 0.2,
+        roughness: 0.05, // Mirror glossy finish
+        ior: 1.52, // Optical index of refraction for glass / PET plastic
+        thickness: 0.25,
+        specularIntensity: 1.0,
+        specularColor: new THREE.Color('#ffffff'),
+        clearcoat: 1.0,
+        clearcoatRoughness: 0.03,
       }),
     []
   );
 
-  // Deep Fizzy Caramel Coca-Cola Liquid with rich inner ruby glow
+  // 2. Deep Sparkling Caramel Soda Liquid Material
   const liquidMaterial = useMemo(
     () =>
-      new THREE.MeshStandardMaterial({
-        color: '#2b0704',
-        emissive: '#450a0a',
-        emissiveIntensity: 0.35,
-        roughness: 0.2,
-        metalness: 0.1,
+      new THREE.MeshPhysicalMaterial({
+        color: new THREE.Color('#1f0402'),
+        emissive: new THREE.Color('#380603'),
+        emissiveIntensity: 0.25, // Subtle rich ruby inner glow under light
+        roughness: 0.15,
+        transmission: 0.45,
+        thickness: 0.8,
+        ior: 1.34, // Liquid refractive index
       }),
     []
   );
 
-  // Red Plastic Screw Cap Material
+  // 3. Signature Coca-Cola Red Cap Material
   const capMaterial = useMemo(
     () =>
       new THREE.MeshStandardMaterial({
-        color: '#dc2626',
-        roughness: 0.35,
-        metalness: 0.1,
+        color: new THREE.Color('#e11d27'),
+        roughness: 0.3,
+        metalness: 0.05,
       }),
     []
   );
 
-  // Label Material (Laminated Gloss Plastic)
+  // 4. Laminated High-Gloss Wrap Label
   const labelMaterial = useMemo(
     () =>
       new THREE.MeshStandardMaterial({
         map: labelTexture,
-        color: '#dc2626',
-        roughness: 0.25,
-        metalness: 0.1,
+        roughness: 0.2,
+        metalness: 0.08,
         side: THREE.DoubleSide,
       }),
     [labelTexture]
@@ -200,148 +293,76 @@ export const CocaColaBottle: React.FC<{
 
   return (
     <group position={position} rotation={rotation} scale={scale}>
-      {/* --- 1. DARK CARAMEL COCA-COLA LIQUID CORE --- */}
-      {/* Lower liquid body */}
-      <mesh position={[0, 0.085, 0]} material={liquidMaterial}>
-        <cylinderGeometry args={[0.049, 0.05, 0.18, 36]} />
-      </mesh>
-      {/* Tapered liquid shoulder */}
-      <mesh position={[0, 0.21, 0]} material={liquidMaterial}>
-        <cylinderGeometry args={[0.016, 0.049, 0.07, 36]} />
-      </mesh>
-      {/* Liquid in neck */}
-      <mesh position={[0, 0.26, 0]} material={liquidMaterial}>
-        <cylinderGeometry args={[0.014, 0.016, 0.03, 24]} />
+      {/* 1. Deep Caramel Coca-Cola Liquid Volume */}
+      <mesh geometry={liquidGeometry} material={liquidMaterial} renderOrder={1} />
+
+      {/* 2. Glass / Clear Contour Plastic Outer Shell */}
+      <mesh geometry={bottleGeometry} material={bottleGlassMaterial} renderOrder={2} castShadow />
+
+      {/* 3. Fitted Wrap-Around Brand Label (waist section) */}
+      <mesh position={[0, 0.128, 0]} material={labelMaterial} renderOrder={3} castShadow>
+        <cylinderGeometry args={[0.0465, 0.0465, 0.075, 64, 1, true]} />
       </mesh>
 
-      {/* --- 2. PETALOID 5-FEET BASE (REALISTIC 1.5L SODA BASE) --- */}
-      <group position={[0, 0.01, 0]}>
-        {/* Central bottom dome */}
-        <mesh position={[0, 0.01, 0]} material={clearPETMaterial}>
-          <cylinderGeometry args={[0.048, 0.042, 0.02, 32]} />
-        </mesh>
-        {/* 5 Molded Petaloid Support Feet */}
-        {[0, 1, 2, 3, 4].map((i) => {
-          const angle = (i / 5) * Math.PI * 2;
-          const x = Math.cos(angle) * 0.038;
-          const z = Math.sin(angle) * 0.038;
+      {/* 4. Molded Screw Cap */}
+      <mesh geometry={capGeometry} material={capMaterial} renderOrder={4} castShadow />
+
+      {/* 5. Fine Vertical Cap Grip Ridges */}
+      <group position={[0, 0.318, 0]}>
+        {Array.from({ length: 24 }).map((_, i) => {
+          const angle = (i / 24) * Math.PI * 2;
+          const x = Math.cos(angle) * 0.0171;
+          const z = Math.sin(angle) * 0.0171;
           return (
-            <mesh key={`foot-${i}`} position={[x, 0, z]} material={clearPETMaterial}>
-              <sphereGeometry args={[0.014, 16, 16]} />
+            <mesh key={`ridge-${i}`} position={[x, 0, z]} rotation={[0, -angle, 0]} material={capMaterial}>
+              <boxGeometry args={[0.0008, 0.016, 0.001]} />
             </mesh>
           );
         })}
       </group>
-
-      {/* --- 3. LOWER CLEAR CONTOUR BODY --- */}
-      <mesh position={[0, 0.065, 0]} material={clearPETMaterial}>
-        <cylinderGeometry args={[0.053, 0.052, 0.09, 48]} />
-      </mesh>
-
-      {/* --- 4. WAIST WRAP-AROUND RED LABEL --- */}
-      <mesh position={[0, 0.145, 0]} material={labelMaterial} castShadow>
-        <cylinderGeometry args={[0.054, 0.054, 0.095, 48]} />
-      </mesh>
-
-      {/* --- 5. UPPER CONTOUR SHOULDER & TAPERING NECK --- */}
-      {/* Sloping shoulder */}
-      <mesh position={[0, 0.22, 0]} material={clearPETMaterial}>
-        <cylinderGeometry args={[0.02, 0.053, 0.075, 48]} />
-      </mesh>
-
-      {/* Slender bottle neck with molded grip rings */}
-      <mesh position={[0, 0.27, 0]} material={clearPETMaterial}>
-        <cylinderGeometry args={[0.016, 0.018, 0.04, 32]} />
-      </mesh>
-      {/* Molded neck ring (support flange) */}
-      <mesh position={[0, 0.275, 0]} material={clearPETMaterial}>
-        <torusGeometry args={[0.018, 0.002, 12, 32]} />
-      </mesh>
-
-      {/* --- 6. RED PLASTIC THREADED SCREW CAP --- */}
-      <group position={[0, 0.302, 0]}>
-        {/* Tamper-evident collar ring */}
-        <mesh position={[0, -0.01, 0]} material={capMaterial}>
-          <cylinderGeometry args={[0.0175, 0.0175, 0.005, 32]} />
-        </mesh>
-        {/* Main ribbed screw cap */}
-        <mesh position={[0, 0.005, 0]} material={capMaterial}>
-          <cylinderGeometry args={[0.017, 0.017, 0.018, 32]} />
-        </mesh>
-        {/* Cap top chamfer */}
-        <mesh position={[0, 0.014, 0]} material={capMaterial}>
-          <cylinderGeometry args={[0.015, 0.017, 0.003, 32]} />
-        </mesh>
-      </group>
-
-      {/* --- 7. CHILLED CONDENSATION DROPLETS --- */}
-      <BottleCondensationDroplets />
     </group>
   );
 };
 
-// Generates 3D glistening micro-droplets on the bottle surface
-const BottleCondensationDroplets: React.FC = () => {
-  const dropletGeo = useMemo(() => new THREE.SphereGeometry(0.0032, 8, 8), []);
-  const dropletMat = useMemo(
-    () =>
-      new THREE.MeshStandardMaterial({
-        color: '#ffffff',
-        transparent: true,
-        opacity: 0.8,
-        roughness: 0.1,
-      }),
-    []
-  );
-
-  const droplets = useMemo(() => {
-    const list: [number, number, number][] = [];
-    for (let i = 0; i < 32; i++) {
-      const angle = (i / 32) * Math.PI * 2 + (i % 3) * 0.5;
-      const radius = 0.055;
-      const y = ((i % 8) / 8) * 0.22 + 0.04;
-      const x = Math.cos(angle) * radius;
-      const z = Math.sin(angle) * radius;
-      list.push([x, y, z]);
-    }
-    return list;
-  }, []);
+// 6-Pack Merged Cluster for High Performance Shelf Display
+export const CocaColaBottleCluster: React.FC<{
+  position?: [number, number, number];
+  rotation?: [number, number, number];
+}> = ({ position = [0, 0, 0], rotation = [0, 0, 0] }) => {
+  // 2x3 Grid Layout
+  const bottleOffsets: [number, number, number][] = [
+    [-0.10, 0, -0.06],
+    [0.0, 0, -0.06],
+    [0.10, 0, -0.06],
+    [-0.10, 0, 0.06],
+    [0.0, 0, 0.06],
+    [0.10, 0, 0.06],
+  ];
 
   return (
-    <group>
-      {droplets.map((pos, idx) => (
-        <mesh key={`bdrop-${idx}`} position={pos} geometry={dropletGeo} material={dropletMat} />
+    <group position={position} rotation={rotation}>
+      {/* 6 Individual Contour Bottles */}
+      {bottleOffsets.map((offset, idx) => (
+        <CocaColaBottle key={`coke-bottle-${idx}`} position={offset} scale={1.0} />
       ))}
-    </group>
-  );
-};
 
-// Retail Shelf Cluster: 4 × 1.5L Coca-Cola Bottles in an organized display
-export const CocaColaBottleCluster: React.FC = () => {
-  return (
-    <group>
-      {/* 2x2 grid of 1.5L bottles */}
-      {[-0.07, 0.07].map((z, zi) =>
-        [-0.07, 0.07].map((x, xi) => (
-          <CocaColaBottle
-            key={`coca-bot-${zi}-${xi}`}
-            position={[x, 0, z]}
-            rotation={[0, (zi * 2 + xi) * 1.5, 0]}
-            scale={0.92}
-          />
-        ))
-      )}
-
-      {/* Clean clear acrylic retail tray keeping bottles sturdy on shelf */}
-      <mesh position={[0, 0.002, 0]}>
-        <boxGeometry args={[0.26, 0.006, 0.26]} />
+      {/* Translucent Shrink-Wrap Plastic Film Pack Packaging */}
+      <mesh position={[0, 0.14, 0]}>
+        <boxGeometry args={[0.34, 0.22, 0.26]} />
         <meshPhysicalMaterial
           color="#ffffff"
-          transmission={0.9}
-          roughness={0.1}
           transparent
-          opacity={0.3}
+          opacity={0.18}
+          roughness={0.1}
+          transmission={0.9}
+          thickness={0.05}
         />
+      </mesh>
+
+      {/* Branded Shrink-wrap Red Belly Band */}
+      <mesh position={[0, 0.12, 0]}>
+        <boxGeometry args={[0.342, 0.065, 0.262]} />
+        <meshStandardMaterial color="#d4141d" roughness={0.3} metalness={0.1} />
       </mesh>
     </group>
   );

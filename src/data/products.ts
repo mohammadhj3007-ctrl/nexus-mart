@@ -292,46 +292,51 @@ export const TELEPORT_ZONES: TeleportZone[] = [
     id: 'entrance',
     label: 'Entrance Lobby',
     sublabel: 'Main Store Concourse',
-    position: [0, 1.7, 12],
+    position: [0, 1.7, 20.0],
     lookAt: [0, 1.7, 0]
+  },
+  {
+    id: 'produce',
+    label: 'Fresh Produce',
+    sublabel: 'Farm Market & Fruits',
+    position: [11.5, 1.7, -4.0],
+    lookAt: [15.5, 1.5, -4.0]
+  },
+  {
+    id: 'coolers',
+    label: 'Dairy & Coolers',
+    sublabel: 'Chilled Refrigerator Wall',
+    position: [0, 1.7, -18.5],
+    lookAt: [0, 1.7, -24.5]
+  },
+  {
+    id: 'meat',
+    label: 'Meat & Deli',
+    sublabel: 'Butcher Shop Showcase',
+    position: [-14.5, 1.7, -4.0],
+    lookAt: [-18.5, 1.5, -4.0]
   },
   {
     id: 'aisle-1',
     label: 'Aisle 01',
-    sublabel: 'Craft Beverages',
+    sublabel: 'Beverages & Soda',
     aisleNumber: 1,
-    position: [-6.1, 1.7, 0],
-    lookAt: [-7.55, 1.4, 0]
+    position: [-5.2, 1.7, -2.0],
+    lookAt: [-7.5, 1.5, -2.0]
   },
   {
     id: 'aisle-2',
     label: 'Aisle 02',
-    sublabel: 'Artisan Groceries',
+    sublabel: 'Pantry & Groceries',
     aisleNumber: 2,
-    position: [-1.1, 1.7, 0],
-    lookAt: [-2.55, 1.4, 0]
-  },
-  {
-    id: 'aisle-3',
-    label: 'Aisle 03',
-    sublabel: 'Tech & Gadgets',
-    aisleNumber: 3,
-    position: [1.1, 1.7, 0],
-    lookAt: [2.55, 1.4, 0]
-  },
-  {
-    id: 'aisle-4',
-    label: 'Aisle 04',
-    sublabel: 'Personal Care',
-    aisleNumber: 4,
-    position: [6.1, 1.7, 0],
-    lookAt: [7.55, 1.4, 0]
+    position: [-0.2, 1.7, -2.0],
+    lookAt: [-2.5, 1.5, -2.0]
   },
   {
     id: 'checkout',
-    label: 'Checkout',
-    sublabel: 'Self-Service Pods',
-    position: [8.5, 1.7, 11],
-    lookAt: [9.5, 1.5, 7.5]
+    label: 'Checkout Area',
+    sublabel: 'Conveyor & Self-Service',
+    position: [3.5, 1.7, 13.0],
+    lookAt: [7.5, 1.5, 16.5]
   }
 ];

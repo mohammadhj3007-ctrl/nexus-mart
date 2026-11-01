@@ -10,7 +10,7 @@ export const StoreCanvas: React.FC = () => {
     <div className="absolute inset-0 w-full h-full">
       <Canvas
         shadows
-        camera={{ position: [0, 1.7, 11], fov: 65, near: 0.1, far: 80 }}
+        camera={{ position: [0, 1.7, 19], fov: 65, near: 0.1, far: 90 }}
         gl={{
           antialias: true,
           powerPreference: 'high-performance',

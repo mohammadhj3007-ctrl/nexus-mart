@@ -2,7 +2,7 @@ import React from 'react';
 import { TELEPORT_ZONES } from '../../data/products';
 import { useStore } from '../../store/useStore';
 import { sounds } from '../../utils/sound';
-import { Navigation, Coffee, ShoppingCart, Cpu, Sparkles, LogIn } from 'lucide-react';
+import { Navigation, Coffee, ShoppingCart, LogIn, Apple, Snowflake, Utensils } from 'lucide-react';
 
 export const TeleportBar: React.FC = () => {
   const teleportTo = useStore((s) => s.teleportTo);
@@ -28,14 +28,16 @@ export const TeleportBar: React.FC = () => {
     switch (id) {
       case 'entrance':
         return <LogIn className="w-3.5 h-3.5" />;
+      case 'produce':
+        return <Apple className="w-3.5 h-3.5" />;
+      case 'coolers':
+        return <Snowflake className="w-3.5 h-3.5" />;
+      case 'meat':
+        return <Utensils className="w-3.5 h-3.5" />;
       case 'aisle-1':
         return <Coffee className="w-3.5 h-3.5" />;
       case 'aisle-2':
         return <ShoppingCart className="w-3.5 h-3.5" />;
-      case 'aisle-3':
-        return <Cpu className="w-3.5 h-3.5" />;
-      case 'aisle-4':
-        return <Sparkles className="w-3.5 h-3.5" />;
       case 'checkout':
         return <Navigation className="w-3.5 h-3.5" />;
       default:
